@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="rockPaperScissors.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="playerSelect">
+            <div id="infoBox"></div>
+            <button value="rock">Rock</button>
+            <button value="paper">Paper</button>
+            <button value="scissors">Scissors</button>
+        </div>
+        <div id="scoreBox">
+            <p>Player Score:<span id="pScore"></span></p>
+            <p>Computer Score:<span id="cScore"></span></p>
+        </div>
+    </body>
+</html>
+<script>
+  let playerScore = 0;
+  let computerScore = 0;
+
+  function computerPlay(){
+      const options = ['rock', 'paper', 'scissors'];
+      let choice = Math.floor(Math.random() * 3);
+      return options[choice];
+  }
+  //Revamped
+
+  function playerPlay(e) {
+      let playerSelect = this.value;
+      playRound(playerSelect);
+  };
+  //Revamped
+
+  function playRound(playerSel){
+      let computerSel = computerPlay();
+      let info = document.querySelector('#infoBox');
+      info.style.textAlign = "center";
+      let pScore = document.querySelector('#pScore');
+      let cScore = document.querySelector('#cScore');
+      let roundMsg = "";
+      let winner = "";
+      info.innerHTML = "";
+
+          if((playerSel == 'rock' && computerSel == 'scissors') || (playerSel == 'paper' && computerSel == 'rock') || 
+      (playerSel == 'scissors' && computerSel == 'paper')){
+          playerScore += 1;
+          roundMsg = " Player wins round";
+      }else if(playerSel == computerSel){
+          roundMsg = " Round is a tie";
+      }else{
+          computerScore += 1;
+          roundMsg = " Computer wins round";
+      }
+      pScore.textContent = playerScore;
+      cScore.textContent = computerScore;
+      info.innerHTML += 'Player selected ' + playerSel + ' and computer selected ' + computerSel + ':' + roundMsg + '<br>';
+      gameEnd();
+  };
+
+  function gameEnd(){
+      let winner = "";
+      let info = document.querySelector('#infoBox');
+
+       if(playerScore >= 5 || computerScore >= 5){
+           if(playerScore > computerScore){
+               winner = "PLAYER";
+           }else{
+               winner = "COMPUTER";
+           }
+           alert(winner + " WINS THE ROUND");
+           info.innerHTML = "";
+           playerScore = 0;
+           computerScore = 0;
+       }
+    }
+  
+  let buttons = document.querySelectorAll('button');
+  buttons.forEach(button => button.addEventListener('mousedown', playerPlay));
+</script>
